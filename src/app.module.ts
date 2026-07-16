@@ -4,6 +4,7 @@ import { APP_GUARD } from "@nestjs/core";
 import { ThrottlerGuard, ThrottlerModule } from "@nestjs/throttler";
 import { LoggerModule } from "nestjs-pino";
 
+import { AppController } from "@/app.controller";
 import { AuthModule } from "@/auth/auth.module";
 import { Env, validateEnv } from "@/config/env.validation";
 import { HealthModule } from "@/health/health.module";
@@ -12,6 +13,7 @@ import { PrismaModule } from "@/prisma/prisma.module";
 import { UsersModule } from "@/users/users.module";
 
 @Module({
+  controllers: [AppController],
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,

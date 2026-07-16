@@ -1,6 +1,6 @@
 import { randomUUID } from "node:crypto";
 
-import { INestApplication, ValidationPipe } from "@nestjs/common";
+import { INestApplication, RequestMethod, ValidationPipe } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 import { NextFunction, Request, Response } from "express";
@@ -51,7 +51,9 @@ export function setupApp(app: INestApplication): {
     origin: parseCorsOrigin(config.get("CORS_ORIGIN", { infer: true })),
     credentials: true,
   });
-  app.setGlobalPrefix(apiPrefix);
+  app.setGlobalPrefix(apiPrefix, {
+    exclude: [{ path: "/", method: RequestMethod.GET }],
+  });
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
